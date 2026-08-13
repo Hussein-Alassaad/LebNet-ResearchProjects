@@ -46,6 +46,7 @@ class CheckpointCallback(xgb.callback.TrainingCallback):
         self.prefix = prefix
 
     def after_iteration(self, model: xgb.Booster, epoch: int, evals_log) -> bool:
+        """xgboost callback hook; return value signals whether to stop training early."""
         round_number = epoch + 1
         if round_number % self.interval == 0:
             self.checkpoint_dir.mkdir(parents=True, exist_ok=True)

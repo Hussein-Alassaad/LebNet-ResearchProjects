@@ -60,10 +60,13 @@ class LightGBMConfig:
 
 @dataclass
 class LightGBMModel:
+    """Thin wrapper around `lightgbm.Booster`, mirroring `model.XGBoostModel`'s interface."""
+
     config: LightGBMConfig = field(default_factory=LightGBMConfig)
     booster: lgb.Booster | None = None
 
     def fit(self, x_train, y_train, x_val, y_val) -> "LightGBMModel":
+        """Train via leaf-wise boosting with GOSS/EFB, early-stopped on validation logloss."""
         dtrain = lgb.Dataset(x_train, label=y_train)
         dval = lgb.Dataset(x_val, label=y_val, reference=dtrain)
         self.booster = lgb.train(
