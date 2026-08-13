@@ -147,9 +147,11 @@ never far behind.
 ## Results
 
 See [results/reproduction_results.md](results/reproduction_results.md)
-for the full reproduction write-up, and
+for the full reproduction write-up,
 [results/reproduction_comparison_notes.md](results/reproduction_comparison_notes.md)
-for the gap analysis against reference numbers.
+for the gap analysis against reference numbers, and
+[docs/hyperparameters.md](docs/hyperparameters.md) for every
+hyperparameter used across all training runs.
 
 **Reproduction (final test set):** 87.53% accuracy, 0.9294 AUC — within
 the commonly reported reference range for gradient boosted trees on
