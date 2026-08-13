@@ -14,13 +14,17 @@ from __future__ import annotations
 
 import argparse
 import time
-from pathlib import Path
 
 import numpy as np
 
 from data_loader import load_adult_dataset
 from evaluate import compute_metrics
-from extension_models import CatBoostConfigWrapper, CatBoostModel, LightGBMConfig, LightGBMModel
+from extension_models import (
+    CatBoostConfigWrapper,
+    CatBoostModel,
+    LightGBMConfig,
+    LightGBMModel,
+)
 from model import XGBoostConfig, XGBoostModel
 from utils import MODELS_DIR, RESULTS_DIR, get_logger, save_json, set_seed
 

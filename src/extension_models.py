@@ -65,7 +65,7 @@ class LightGBMModel:
     config: LightGBMConfig = field(default_factory=LightGBMConfig)
     booster: lgb.Booster | None = None
 
-    def fit(self, x_train, y_train, x_val, y_val) -> "LightGBMModel":
+    def fit(self, x_train, y_train, x_val, y_val) -> LightGBMModel:
         """Train via leaf-wise boosting with GOSS/EFB, early-stopped on validation logloss."""
         dtrain = lgb.Dataset(x_train, label=y_train)
         dval = lgb.Dataset(x_val, label=y_val, reference=dtrain)
@@ -91,7 +91,7 @@ class LightGBMModel:
             raise RuntimeError("Model has not been fit yet.")
         self.booster.save_model(path)
 
-    def load(self, path: str) -> "LightGBMModel":
+    def load(self, path: str) -> LightGBMModel:
         self.booster = lgb.Booster(model_file=path)
         return self
 
@@ -144,7 +144,7 @@ class CatBoostModel:
             x[col] = x[col].fillna(_CATBOOST_MISSING_SENTINEL)
         return x
 
-    def fit(self, x_train, y_train, x_val, y_val, categorical_columns: list[str]) -> "CatBoostModel":
+    def fit(self, x_train, y_train, x_val, y_val, categorical_columns: list[str]) -> CatBoostModel:
         self.categorical_columns = categorical_columns
         x_train = self._fill_missing_categoricals(x_train)
         x_val = self._fill_missing_categoricals(x_val)
@@ -180,7 +180,7 @@ class CatBoostModel:
             raise RuntimeError("Model has not been fit yet.")
         self.booster.save_model(path)
 
-    def load(self, path: str, categorical_columns: list[str]) -> "CatBoostModel":
+    def load(self, path: str, categorical_columns: list[str]) -> CatBoostModel:
         self.categorical_columns = categorical_columns
         self.booster = cb.CatBoostClassifier()
         self.booster.load_model(path)

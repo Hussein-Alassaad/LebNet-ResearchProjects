@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import argparse
 import time
-from pathlib import Path
 
 from data_loader import load_adult_dataset
 from model import XGBoostConfig, XGBoostModel

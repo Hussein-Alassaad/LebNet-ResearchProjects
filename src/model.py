@@ -137,7 +137,7 @@ class XGBoostModel:
         verbose_eval: bool | int = False,
         checkpoint_dir: Path | None = None,
         checkpoint_interval: int = 50,
-    ) -> "XGBoostModel":
+    ) -> XGBoostModel:
         """Train via Newton boosting on the regularized objective.
 
         Uses a held-out validation set for early stopping, matching the
@@ -185,7 +185,7 @@ class XGBoostModel:
             raise RuntimeError("Model has not been fit yet.")
         self.booster.save_model(path)
 
-    def load(self, path: str) -> "XGBoostModel":
+    def load(self, path: str) -> XGBoostModel:
         """Load a previously saved ensemble, replacing any current booster."""
         self.booster = xgb.Booster()
         self.booster.load_model(path)
