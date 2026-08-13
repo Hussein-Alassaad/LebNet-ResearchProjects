@@ -18,17 +18,18 @@
     "num_boost_round": 300,
     "early_stopping_rounds": 20
   },
-  "best_iteration": 179,
-  "train_seconds": 1.297910451889038,
+  "best_iteration": 86,
+  "train_seconds": 0.5465142726898193,
   "data_stats": {
-    "n_train": 29304,
-    "n_val": 3257,
-    "n_test": 16281,
+    "n_train": 29273,
+    "n_val": 3253,
+    "n_test": 16264,
     "n_features": 14,
     "n_categorical": 8,
     "n_numeric": 6,
-    "positive_rate_train": 0.23928473928473928,
-    "positive_rate_val": 0.2391771568928462,
-    "positive_rate_test": 0.2392973404582028
+    "n_duplicates_dropped": 52,
+    "positive_rate_train": 0.23940149625935161,
+    "positive_rate_val": 0.23947125730095298,
+    "positive_rate_test": 0.23942449581898673
   }
 }

@@ -42,6 +42,7 @@ class AdultDataset:
     y_test: pd.Series
     categorical_columns: list[str]
     numeric_columns: list[str]
+    n_duplicates_dropped: int = 0
 
     def stats(self) -> dict:
         return {
@@ -51,6 +52,7 @@ class AdultDataset:
             "n_features": self.x_train.shape[1],
             "n_categorical": len(self.categorical_columns),
             "n_numeric": len(self.numeric_columns),
+            "n_duplicates_dropped": self.n_duplicates_dropped,
             "positive_rate_train": float(self.y_train.mean()),
             "positive_rate_val": float(self.y_val.mean()),
             "positive_rate_test": float(self.y_test.mean()),
@@ -116,6 +118,16 @@ def load_adult_dataset(force_redownload: bool = False) -> AdultDataset:
             raw_path.unlink()
 
     df = _clean(_download_raw())
+
+    # The Adult dataset's coarse census bucketing produces a small number
+    # of genuinely identical rows (~89 out of ~45K when checked across the
+    # full data). Deduplicating before splitting prevents the same row
+    # from landing in both train and test, which would leak test-set
+    # examples into training and inflate reported test metrics.
+    n_before = len(df)
+    df = df.drop_duplicates().reset_index(drop=True)
+    n_duplicates_dropped = n_before - len(df)
+
     categorical_columns, numeric_columns = _split_columns(df)
 
     # Categorical dtype lets XGBoost consume categoricals natively
@@ -146,6 +158,7 @@ def load_adult_dataset(force_redownload: bool = False) -> AdultDataset:
         y_test=y_test.reset_index(drop=True),
         categorical_columns=categorical_columns,
         numeric_columns=numeric_columns,
+        n_duplicates_dropped=n_duplicates_dropped,
     )
 
 
