@@ -31,6 +31,11 @@ results/*.csv
 Thumbs.db
 .vscode/
 .idea/
+.claude/
+
+# CatBoost training logs (auto-generated)
+catboost_info/
+src/catboost_info/
 
 # Environment / secrets
 .env
