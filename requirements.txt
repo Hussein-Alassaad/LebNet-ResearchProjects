@@ -1,0 +1,22 @@
+# Core data / ML
+numpy>=1.26,<2.0
+pandas>=2.1
+scikit-learn>=1.4
+scipy>=1.11
+
+# Gradient boosting libraries
+xgboost>=2.0
+lightgbm>=4.3
+catboost>=1.2
+
+# Data source (UCI Adult Census via OpenML)
+requests>=2.31
+
+# Plotting / notebooks
+matplotlib>=3.8
+seaborn>=0.13
+jupyter>=1.0
+ipykernel>=6.29
+
+# Testing
+pytest>=8.0
