@@ -21,6 +21,11 @@ def set_seed(seed: int) -> None:
 
 
 def get_logger(name: str) -> logging.Logger:
+    """Return a module-level logger with a single stream handler attached.
+
+    Guards against duplicate handlers so repeated calls (e.g. re-running
+    a cell in a notebook) don't produce duplicated log lines.
+    """
     logger = logging.getLogger(name)
     if not logger.handlers:
         handler = logging.StreamHandler()
@@ -31,11 +36,13 @@ def get_logger(name: str) -> logging.Logger:
 
 
 def save_json(obj: dict, path: Path) -> None:
+    """Write `obj` as pretty-printed JSON, creating parent dirs as needed."""
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w") as f:
         json.dump(obj, f, indent=2)
 
 
 def load_json(path: Path) -> dict:
+    """Read a JSON file previously written by `save_json`."""
     with open(path) as f:
         return json.load(f)
