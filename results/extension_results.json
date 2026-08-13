@@ -1,0 +1,56 @@
+{
+  "results": [
+    {
+      "library": "xgboost",
+      "train_seconds": 0.6874909000471234,
+      "train_seconds_std": 0.0,
+      "inference_seconds": 0.01635189998584489,
+      "inference_seconds_std": 0.0005316843538450859,
+      "model_size_bytes": 480337,
+      "best_iteration": 141,
+      "accuracy": 0.874631087063453,
+      "error_rate": 0.12536891293654695,
+      "auc": 0.9293132190601465,
+      "log_loss": 0.2765061557292938,
+      "f1": 0.7165299596830251
+    },
+    {
+      "library": "lightgbm",
+      "train_seconds": 0.4793829000554979,
+      "train_seconds_std": 0.0,
+      "inference_seconds": 0.021625666568676632,
+      "inference_seconds_std": 0.0014155903029898244,
+      "model_size_bytes": 242401,
+      "best_iteration": 111,
+      "accuracy": 0.8730324643384161,
+      "error_rate": 0.12696753566158392,
+      "auc": 0.9289487298619563,
+      "log_loss": 0.27735977497603304,
+      "f1": 0.7125956854558108
+    },
+    {
+      "library": "catboost",
+      "train_seconds": 11.709845699835569,
+      "train_seconds_std": 0.0,
+      "inference_seconds": 0.008040866659333309,
+      "inference_seconds_std": 0.00021865631191643183,
+      "model_size_bytes": 332516,
+      "best_iteration": 219,
+      "accuracy": 0.8740777176586325,
+      "error_rate": 0.1259222823413675,
+      "auc": 0.9286817623365176,
+      "log_loss": 0.2779220930087027,
+      "f1": 0.7111424541607898
+    }
+  ],
+  "matched_config": {
+    "num_rounds": 400,
+    "max_depth": 5,
+    "learning_rate": 0.1,
+    "l2_reg": 2.0,
+    "subsample": 0.9,
+    "colsample": 0.7,
+    "early_stopping_rounds": 20,
+    "seed": 42
+  }
+}
