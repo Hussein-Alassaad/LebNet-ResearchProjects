@@ -122,6 +122,17 @@ jupyter notebook notebooks/
   `force_redownload=True` to `load_adult_dataset`) to refetch from
   OpenML.
 
+### Running tests
+
+```bash
+pytest src/ -v
+```
+
+Covers data loading (split sizes, no train/test leakage, dtypes),
+a training step (AUC beats random baseline, save/load round-trip is
+exact), and evaluation metric correctness. All 9 tests pass in ~2
+seconds on CPU.
+
 ## Extension
 
 **Efficiency comparison: XGBoost vs. LightGBM vs. CatBoost.** The
