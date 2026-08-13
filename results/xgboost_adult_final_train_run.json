@@ -19,7 +19,7 @@
     "early_stopping_rounds": 20
   },
   "best_iteration": 141,
-  "train_seconds": 3.197535514831543,
+  "train_seconds": 0.7504644393920898,
   "data_stats": {
     "n_train": 29273,
     "n_val": 3253,
