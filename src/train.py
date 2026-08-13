@@ -33,6 +33,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--early-stopping-rounds", type=int, default=20)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--model-name", type=str, default="xgboost_adult")
+    parser.add_argument("--checkpoint-interval", type=int, default=50)
     return parser.parse_args()
 
 
@@ -59,8 +60,18 @@ def main() -> None:
 
     model = XGBoostModel(config=config)
 
+    checkpoint_dir = MODELS_DIR / "checkpoints" / args.model_name
+
     start = time.time()
-    model.fit(dataset.x_train, dataset.y_train, dataset.x_val, dataset.y_val, verbose_eval=25)
+    model.fit(
+        dataset.x_train,
+        dataset.y_train,
+        dataset.x_val,
+        dataset.y_val,
+        verbose_eval=25,
+        checkpoint_dir=checkpoint_dir,
+        checkpoint_interval=args.checkpoint_interval,
+    )
     train_seconds = time.time() - start
     logger.info(
         "Training complete in %.1fs, best_iteration=%s (of %d requested)",

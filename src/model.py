@@ -25,10 +25,32 @@ than scattered through training code.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import xgboost as xgb
+
+
+class CheckpointCallback(xgb.callback.TrainingCallback):
+    """Save the booster to disk every `interval` boosting rounds.
+
+    Lets a long training run be resumed or inspected mid-flight instead
+    of only having the final model, at the cost of a small amount of
+    extra disk I/O every `interval` rounds.
+    """
+
+    def __init__(self, checkpoint_dir: Path, interval: int = 50, prefix: str = "checkpoint"):
+        self.checkpoint_dir = Path(checkpoint_dir)
+        self.interval = interval
+        self.prefix = prefix
+
+    def after_iteration(self, model: xgb.Booster, epoch: int, evals_log) -> bool:
+        round_number = epoch + 1
+        if round_number % self.interval == 0:
+            self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
+            model.save_model(str(self.checkpoint_dir / f"{self.prefix}_round{round_number}.json"))
+        return False
 
 
 @dataclass
@@ -112,15 +134,22 @@ class XGBoostModel:
         x_val: pd.DataFrame,
         y_val: pd.Series,
         verbose_eval: bool | int = False,
+        checkpoint_dir: Path | None = None,
+        checkpoint_interval: int = 50,
     ) -> "XGBoostModel":
         """Train via Newton boosting on the regularized objective.
 
         Uses a held-out validation set for early stopping, matching the
         paper's use of validation-based stopping to control overfitting
-        instead of a fixed round count.
+        instead of a fixed round count. If `checkpoint_dir` is given, the
+        booster is additionally saved every `checkpoint_interval` rounds.
         """
         dtrain = self._to_dmatrix(x_train, y_train)
         dval = self._to_dmatrix(x_val, y_val)
+
+        callbacks = []
+        if checkpoint_dir is not None:
+            callbacks.append(CheckpointCallback(checkpoint_dir, interval=checkpoint_interval))
 
         evals_result: dict = {}
         self.booster = xgb.train(
@@ -131,6 +160,7 @@ class XGBoostModel:
             early_stopping_rounds=self.config.early_stopping_rounds,
             evals_result=evals_result,
             verbose_eval=verbose_eval,
+            callbacks=callbacks,
         )
         self.best_iteration = self.booster.best_iteration
         self.evals_result_ = evals_result
