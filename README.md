@@ -3,8 +3,8 @@
 Reproduction and extension of **"XGBoost: A Scalable Tree Boosting System"**
 (Chen & Guestrin, KDD 2016) on the UCI Adult Census Income dataset.
 
-> Status: Phase 0 (setup). This README will be filled in with setup
-> instructions, results, and an extension summary as the project progresses.
+> Status: Phase 1 (reproduction) complete — see Results below. Phase 2
+> (extension) in progress.
 
 ## Project layout
 
