@@ -95,6 +95,14 @@ class XGBoostModel:
     best_iteration: int | None = None
 
     def _to_dmatrix(self, x: pd.DataFrame, y: pd.Series | None = None) -> xgb.DMatrix:
+        """Wrap a pandas frame as XGBoost's internal DMatrix format.
+
+        `enable_categorical=True` lets XGBoost consume the `category`
+        dtype columns produced by `data_loader.load_adult_dataset`
+        directly, using the paper's sparsity-aware split algorithm to
+        route each category (and missing values) without manual
+        one-hot encoding.
+        """
         return xgb.DMatrix(x, label=y, enable_categorical=True)
 
     def fit(
@@ -137,14 +145,17 @@ class XGBoostModel:
         return self.booster.predict(dmatrix, iteration_range=iteration_range)
 
     def predict(self, x: pd.DataFrame, threshold: float = 0.5) -> np.ndarray:
+        """Threshold `predict_proba` into a hard {0, 1} income class."""
         return (self.predict_proba(x) >= threshold).astype(int)
 
     def save(self, path: str) -> None:
+        """Persist the boosted ensemble (all trees f_1..f_K) to disk."""
         if self.booster is None:
             raise RuntimeError("Model has not been fit yet.")
         self.booster.save_model(path)
 
     def load(self, path: str) -> "XGBoostModel":
+        """Load a previously saved ensemble, replacing any current booster."""
         self.booster = xgb.Booster()
         self.booster.load_model(path)
         return self
