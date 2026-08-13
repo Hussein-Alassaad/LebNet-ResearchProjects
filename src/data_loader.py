@@ -93,8 +93,11 @@ def _clean(df: pd.DataFrame) -> pd.DataFrame:
 
 def _split_columns(df: pd.DataFrame) -> tuple[list[str], list[str]]:
     feature_df = df.drop(columns=[TARGET_COLUMN])
+    # pandas >= 3.0 reports plain text columns as dtype "str" rather than
+    # the legacy "object", so check both to stay compatible across
+    # versions instead of relying on `dtype == object`.
     categorical_columns = [
-        c for c in feature_df.columns if feature_df[c].dtype == object or str(feature_df[c].dtype) == "category"
+        c for c in feature_df.columns if str(feature_df[c].dtype) in ("object", "str", "category")
     ]
     numeric_columns = [c for c in feature_df.columns if c not in categorical_columns]
     return categorical_columns, numeric_columns
