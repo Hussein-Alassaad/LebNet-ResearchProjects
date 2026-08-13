@@ -6,6 +6,18 @@ capacity/regularization budget (`max_depth`/`depth`=5, `lr`=0.1,
 L2=2.0, subsample=0.9, colsample=0.7, up to 400 rounds, 20-round early
 stopping, seed=42) on the identical leakage-free train/val/test splits
 from `src/data_loader.py`. Full numbers: `results/extension_results.json`.
+Visualizations: `notebooks/03_extension_analysis.ipynb`.
+
+## TL;DR
+
+Accuracy and AUC are effectively tied across all three libraries
+(within 0.16 percentage points / 0.0006 AUC) — the extension's real
+finding is on **efficiency**: LightGBM trains fastest (~35% quicker
+than XGBoost, ~24x quicker than CatBoost) and produces the smallest
+model; CatBoost is far slower to train (ordered boosting overhead) but
+fastest at inference (oblivious trees); XGBoost sits in the middle on
+every axis, matching its framing as a well-rounded general-purpose
+system rather than one optimized for a single metric.
 
 ## Results table
 
