@@ -31,10 +31,11 @@ Reproduction and extension of **"XGBoost: A Scalable Tree Boosting System"**
 │   └── 03_extension_analysis.ipynb  # Extension accuracy/efficiency plots
 ├── results/                  # Metrics, plots, written analysis
 └── docs/
-    ├── paper_summary.md      # Understanding of the paper
-    ├── hyperparameters.md    # Full hyperparameter/config reference
-    ├── extension_plan.md     # Extension proposal
-    └── findings.md           # Final learnings & reflection
+    ├── paper_summary.md                              # Understanding of the paper
+    ├── hyperparameters.md                            # Full hyperparameter/config reference
+    ├── extension_plan.md                             # Extension proposal
+    ├── findings.md                                   # Final learnings & reflection
+    └── Project_Summary_Beginner_Friendly.pdf        # 6-page walkthrough, grade-9 English
 ```
 
 ## Paper
